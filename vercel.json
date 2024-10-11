@@ -3,13 +3,16 @@
   "builds": [
     {
       "src": "/backend/src/index.mjs",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "buildCommand": "npm run build"
+      }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/backend/src/index.mjs"
     }
   ]
 }
