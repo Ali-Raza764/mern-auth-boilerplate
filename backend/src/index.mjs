@@ -4,14 +4,14 @@ import userRouter from "./routes/user.mjs";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
-// import path from "path";
+import path from "path";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: ["https://mern-auth-react-app.vercel.app/"],
+    origin: process.env.CLIENT_URL,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
@@ -30,20 +30,20 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api", userRouter);
 
-// const __dirname = path.resolve();
+const __dirname = path.resolve();
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(__dirname, "/client/dist")));
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-//   });
-// }
-
-app.get("/", (req, res) => {
-  res.send({
-    message: "server is running",
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/client/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
   });
-});
+}
+
+app.get("/", (req, res)=>{
+  res.send({
+    message: "server running"
+  })
+})
 
 app.listen(PORT, () => {
   console.log("Server is running on port " + PORT);

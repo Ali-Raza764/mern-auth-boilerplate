@@ -1,12 +1,12 @@
 {
-  "name": "backend",
+  "name": "mern-auth",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.mjs",
+  "main": "backend/src/index.mjs",
   "scripts": {
-    "dev": "nodemon src/index.mjs",
-    "start": "node /src/index.mjs",
-    "build": "npm install"
+    "dev": "nodemon backend/src/index.mjs",
+    "start": "node backend/src/index.mjs",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -19,8 +19,8 @@
     "nodemon": "^3.1.7",
     "resend": "^4.0.0"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "type": "module"
+  "license": "ISC"
 }

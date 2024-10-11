@@ -27,10 +27,10 @@ A full-featured authentication system built using the MERN stack (MongoDB, Expre
 
 ## Screenshots
 
-![Sign-Up Page](./screenshots/signup.jpg)
+![Sign-Up Page](./client/public/screenshots/signup.jpg)
 *Sign-up page with fields for username, email, and password.*
 
-![Email Verification](./screenshots/verification-page.png)
+![Email Verification](./client/public/screenshots/verification-page.png)
 *Verification page where users enter a 6-digit verification code.*
 
 ## Installation & Setup
