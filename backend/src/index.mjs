@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: ["https://mern-auth-react-app.vercel.app/"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
@@ -39,11 +39,11 @@ app.use("/api", userRouter);
 //   });
 // }
 
-app.get("/", (req, res)=>{
+app.get("/", (req, res) => {
   res.send({
     message: "server is running",
-  })
-})
+  });
+});
 
 app.listen(PORT, () => {
   console.log("Server is running on port " + PORT);
