@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 
 const SignUp = () => {
   const { signup, error, isLoading: loading } = useAuthStore();
@@ -27,7 +28,7 @@ const SignUp = () => {
         <h2 className="text-3xl text-white font-semibold mb-6 text-center">
           Sign Up
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-3">
           {error && (
             <div className="bg-red-500 text-white p-3 rounded-md text-center">
               {error}
@@ -109,6 +110,9 @@ const SignUp = () => {
             )}
           </button>
         </form>
+        <div className="my-3">
+          <GoogleLoginButton />
+        </div>
         <div className="w-full flex items-center justify-between mt-3">
           Already have an account{" "}
           <Link to={"/sign-in"} className="text-indigo-600">

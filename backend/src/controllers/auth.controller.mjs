@@ -6,6 +6,53 @@ import {
   sendVerficationEmail,
   sendWelcomeEmail,
 } from "../lib/email/sendEmails.mjs";
+import { OAuth2Client } from "google-auth-library";
+
+const client = new OAuth2Client({
+  //! client secret is not required for simple authentication it is only required for  server to server communication the verify token ensures that the token was issued by google for this application
+  // clientSecret: process.env.AUTH_GOOGLE_SECRET,
+});
+
+export const oauthSignIn = async (req, res) => {
+  const { credential, client_id } = req.body;
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: client_id,
+    });
+    const payload = ticket.getPayload();
+    const { name, email, picture } = payload;
+
+    const user = await User.findOne({ email });
+    if (user) {
+      generateTokenAndSetCookie(res, user._id);
+      return res.status(200).json({
+        success: true,
+        message: "User logged in successfully",
+        user: {
+          ...user._doc,
+          password: undefined,
+        },
+      });
+    }
+    const newUser = await User.create({
+      name,
+      email,
+      avatar: picture,
+      authType: "oauth",
+    });
+    generateTokenAndSetCookie(res, newUser._id);
+    await sendWelcomeEmail(newUser._id);
+
+    res.status(200).json({
+      success: true,
+      message: "User logged",
+      ...user._doc,
+    });
+  } catch (err) {
+    res.status(400).json({ err });
+  }
+};
 
 export const signUp = async (req, res) => {
   const {
@@ -66,6 +113,16 @@ export const signIn = async (req, res) => {
     });
   }
 
+  if (findUser.authType !== "credentials") {
+    return res.status(400).send({
+      message: "This email is not registered with credentials",
+      user: {
+        ...findUser._doc,
+        password: undefined,
+      },
+    });
+  }
+
   const isPasswordCorrect = compare(password, findUser.password);
   if (!isPasswordCorrect) {
     return res.status(400).send({
@@ -117,7 +174,6 @@ export const verifyEmail = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log("error in verifyEmail ", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
@@ -139,7 +195,6 @@ export const checkAuth = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-	res.clearCookie("token");
-	res.status(200).json({ success: true, message: "Logged out successfully" });
+  res.clearCookie("token");
+  res.status(200).json({ success: true, message: "Logged out successfully" });
 };
-

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 
 const SignIn = () => {
   const { login, isLoading: loading, error } = useAuthStore();
@@ -91,6 +92,9 @@ const SignIn = () => {
             )}
           </button>
         </form>
+        <div className="my-3">
+          <GoogleLoginButton />
+        </div>
         <div className="w-full flex items-center justify-between mt-3">
           Dont have an account{" "}
           <Link to={"/sign-up"} className="text-indigo-600">

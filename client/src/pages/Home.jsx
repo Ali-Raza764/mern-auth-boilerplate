@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"; // If you're using react-router for rou
 const Home = () => {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">
-      <h1 className="text-5xl text-white font-bold mb-8">
+      <h1 className="text-5xl text-white font-bold mb-8 text-center">
         Mern Authentication Boilerplate 🔒
       </h1>
       <p className="text-lg text-gray-300 mb-12 text-center max-w-md">

@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   checkAuth,
   logout,
+  oauthSignIn,
   signIn,
   signUp,
   verifyEmail,
@@ -13,6 +14,8 @@ const userRouter = Router();
 userRouter.get("/auth/check-auth", verifyToken, checkAuth);
 
 userRouter.post("/auth/sign-up", signUp);
+
+userRouter.post("/auth/google-oauth", oauthSignIn)
 
 userRouter.post("/auth/sign-in", signIn);
 

@@ -14,8 +14,6 @@ async function sendEmail(to, html, subject) {
   if (error) {
     return console.error({ error });
   }
-
-  console.log({ data });
 }
 
 export default sendEmail;
