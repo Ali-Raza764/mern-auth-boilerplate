@@ -2,8 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/src/index.mjs",
-      "use": "@vercel/node"
+      "src": "package.json",
+      "use": "@vercel/node",
+      "config": {
+        "buildCommand": "npm install && npm install --prefix client && npm run build --prefix client"
+      }
     }
   ],
   "routes": [
