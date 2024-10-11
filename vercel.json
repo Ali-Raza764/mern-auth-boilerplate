@@ -5,7 +5,7 @@
       "src": "/backend/src/index.mjs",
       "use": "@vercel/node",
       "config": {
-        "buildCommand": "npm install && npm install --prefix client && npm run build --prefix client"
+        "buildCommand": "npm install && npm run build-client && npm run build-server"
       }
     }
   ],

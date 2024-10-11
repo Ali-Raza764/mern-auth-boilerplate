@@ -5,8 +5,10 @@
   "main": "backend/src/index.mjs",
   "scripts": {
     "dev": "NODE_ENV=development nodemon backend/src/index.mjs",
-		"start": "node backend/src/index.mjs",
-		"build": "npm install && npm install --prefix client && npm run build --prefix client"
+    "start": "node backend/src/index.mjs",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client",
+    "build-client": "cd client && npm install && npm run build",
+    "build-server": "cd backend && npm install"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
