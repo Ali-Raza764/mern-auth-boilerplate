@@ -1,4 +1,4 @@
-# MERN Authentication Project
+# MERN Authentication Project 🔒
 
 A full-featured authentication system built using the MERN stack (MongoDB, Express, React, Node.js) with additional tools like JWT for token-based authentication, Resend for email verification, Zustand for state management, and Tailwind CSS for styling.
 
