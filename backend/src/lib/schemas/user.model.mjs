@@ -27,6 +27,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: "credentials", // Default is 'credentials'
     },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
     verificationToken: { type: String, default: null },
     verificationTokenExpiry: { type: String, default: null },
   },

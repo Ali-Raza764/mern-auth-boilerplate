@@ -7,6 +7,7 @@ import {
   sendWelcomeEmail,
 } from "../lib/email/sendEmails.mjs";
 import { OAuth2Client } from "google-auth-library";
+import "dotenv";
 
 const client = new OAuth2Client({
   //! client secret is not required for simple authentication it is only required for  server to server communication the verify token ensures that the token was issued by google for this application
@@ -25,7 +26,7 @@ export const oauthSignIn = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (user) {
-      generateTokenAndSetCookie(res, user._id);
+      generateTokenAndSetCookie(res, user._id, user.role);
       return res.status(200).json({
         success: true,
         message: "User logged in successfully",
@@ -35,13 +36,15 @@ export const oauthSignIn = async (req, res) => {
         },
       });
     }
+    const isAdmin = email === process.env.NODE_ADMIN_EMAIL;
     const newUser = await User.create({
       name,
       email,
       avatar: picture,
       authType: "oauth",
+      role: isAdmin ? "admin" : "user",
     });
-    generateTokenAndSetCookie(res, newUser._id);
+    generateTokenAndSetCookie(res, newUser._id, newUser.role);
     await sendWelcomeEmail(newUser._id);
 
     res.status(200).json({
@@ -74,13 +77,16 @@ export const signUp = async (req, res) => {
 
   const hashedPassword = await hash(password, 8);
 
+  const isAdmin = email === process.env.NODE_ADMIN_EMAIL;
+
   const newUser = await User.create({
     email,
     password: hashedPassword,
     name,
+    role: isAdmin ? "admin" : "user",
   });
 
-  generateTokenAndSetCookie(res, newUser._id);
+  generateTokenAndSetCookie(res, newUser._id, newUser.role);
   await sendVerficationEmail(newUser._id);
 
   res.status(200).send({
@@ -130,7 +136,7 @@ export const signIn = async (req, res) => {
     });
   }
 
-  generateTokenAndSetCookie(res, findUser._id);
+  generateTokenAndSetCookie(res, findUser._id, findUser.role);
   findUser.lastLogin = new Date();
 
   res.status(200).send({
